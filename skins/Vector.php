@@ -131,9 +131,41 @@ class VectorTemplate extends BaseTemplate {
 		}
 		// Output HTML Page
 		$this->html( 'headelement' );
+
+		//ini_set("display_errors", 1);
+
+		$skipPopulation = true;
+		$fetchOnly = true;
+
+		$pageName = 'wiki_header';
+		$pageTitle = $page_title;
+	    include($_SERVER['DOCUMENT_ROOT'] . '/index.php');
+		$osu_header = $forumOutput;
+
+
+		$pageName = 'footer';
+	    include($_SERVER['DOCUMENT_ROOT'] . '/index.php');
+		$osu_footer = $forumOutput;
 ?>
+
+<?=$osu_header?>
+
+
+		<!-- header -->
+		<div id="mw-head" class="noprint">
+			<?php $this->renderNavigation( 'PERSONAL' ); ?>
+			<div id="left-navigation">
+				<?php $this->renderNavigation( array( 'NAMESPACES', 'VARIANTS' ) ); ?>
+			</div>
+			<div id="right-navigation">
+				<?php $this->renderNavigation( array( 'VIEWS', 'ACTIONS', 'SEARCH' ) ); ?>
+			</div>
+		</div>
+		<!-- /header -->
+
 		<div id="mw-page-base" class="noprint"></div>
 		<div id="mw-head-base" class="noprint"></div>
+
 		<!-- content -->
 		<div id="content">
 			<a id="top"></a>
@@ -202,50 +234,16 @@ class VectorTemplate extends BaseTemplate {
 			<!-- /bodyContent -->
 		</div>
 		<!-- /content -->
-		<!-- header -->
-		<div id="mw-head" class="noprint">
-			<?php $this->renderNavigation( 'PERSONAL' ); ?>
-			<div id="left-navigation">
-				<?php $this->renderNavigation( array( 'NAMESPACES', 'VARIANTS' ) ); ?>
-			</div>
-			<div id="right-navigation">
-				<?php $this->renderNavigation( array( 'VIEWS', 'ACTIONS', 'SEARCH' ) ); ?>
-			</div>
-		</div>
-		<!-- /header -->
+
 		<!-- panel -->
-			<div id="mw-panel" class="noprint">
-				<!-- logo -->
-					<div id="p-logo"><a style="background-image: url(<?php $this->text( 'logopath' ) ?>);" href="<?php echo htmlspecialchars( $this->data['nav_urls']['mainpage']['href'] ) ?>" <?php echo Xml::expandAttributes( Linker::tooltipAndAccesskeyAttribs( 'p-logo' ) ) ?>></a></div>
-				<!-- /logo -->
+			<div id="mw-panel" class="noprint mw-panel">
 				<?php $this->renderPortals( $this->data['sidebar'] ); ?>
 			</div>
 		<!-- /panel -->
-		<!-- footer -->
-		<div id="footer"<?php $this->html( 'userlangattributes' ) ?>>
-			<?php foreach( $this->getFooterLinks() as $category => $links ): ?>
-				<ul id="footer-<?php echo $category ?>">
-					<?php foreach( $links as $link ): ?>
-						<li id="footer-<?php echo $category ?>-<?php echo $link ?>"><?php $this->html( $link ) ?></li>
-					<?php endforeach; ?>
-				</ul>
-			<?php endforeach; ?>
-			<?php $footericons = $this->getFooterIcons("icononly");
-			if ( count( $footericons ) > 0 ): ?>
-				<ul id="footer-icons" class="noprint">
-<?php			foreach ( $footericons as $blockName => $footerIcons ): ?>
-					<li id="footer-<?php echo htmlspecialchars( $blockName ); ?>ico">
-<?php				foreach ( $footerIcons as $icon ): ?>
-						<?php echo $this->skin->makeFooterIcon( $icon ); ?>
 
-<?php				endforeach; ?>
-					</li>
-<?php			endforeach; ?>
-				</ul>
-			<?php endif; ?>
-			<div style="clear:both"></div>
-		</div>
-		<!-- /footer -->
+
+		<?=$osu_footer?>
+
 		<!-- fixalpha -->
 		<script type="<?php $this->text( 'jsmimetype' ) ?>"> if ( window.isMSIE55 ) fixalpha(); </script>
 		<!-- /fixalpha -->
@@ -373,7 +371,7 @@ class VectorTemplate extends BaseTemplate {
 		</h4>
 	<?php endif; ?>
 	<h5><span><?php $this->msg( 'variants' ) ?></span><a href="#"></a></h5>
-	<div class="menu">
+	<div class="wikimenu">
 		<ul<?php $this->html( 'userlangattributes' ) ?>>
 			<?php foreach ( $this->data['variant_urls'] as $link ): ?>
 				<li<?php echo $link['attributes'] ?>><a href="<?php echo htmlspecialchars( $link['href'] ) ?>" <?php echo $link['key'] ?>><?php echo htmlspecialchars( $link['text'] ) ?></a></li>
@@ -404,7 +402,7 @@ class VectorTemplate extends BaseTemplate {
 ?>
 <div id="p-cactions" class="vectorMenu<?php if ( count( $this->data['action_urls'] ) == 0 ) echo ' emptyPortlet'; ?>">
 	<h5><span><?php $this->msg( 'actions' ) ?></span><a href="#"></a></h5>
-	<div class="menu">
+	<div class="wikimenu">
 		<ul<?php $this->html( 'userlangattributes' ) ?>>
 			<?php foreach ( $this->data['action_urls'] as $link ): ?>
 				<li<?php echo $link['attributes'] ?>><a href="<?php echo htmlspecialchars( $link['href'] ) ?>" <?php echo $link['key'] ?>><?php echo htmlspecialchars( $link['text'] ) ?></a></li>

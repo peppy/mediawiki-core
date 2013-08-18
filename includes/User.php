@@ -359,17 +359,19 @@ class User {
 		if ( $validate === true ) {
 			$validate = 'valid';
 		}
-		$name = self::getCanonicalName( $name, $validate );
-		if ( $name === false ) {
+
+		//$name = self::getCanonicalName( $name, $validate );
+
+		/*if ( $name === false ) {
 			return false;
-		} else {
+		} else {*/
 			# Create unloaded user object
 			$u = new User;
 			$u->mName = $name;
 			$u->mFrom = 'name';
 			$u->setItemLoaded( 'name' );
 			return $u;
-		}
+		//}
 	}
 
 	/**
@@ -472,7 +474,9 @@ class User {
 	 * @return Int|Null The corresponding user's ID, or null if user is nonexistent
 	 */
 	public static function idFromName( $name ) {
+
 		$nt = Title::makeTitleSafe( NS_USER, $name );
+
 		if( is_null( $nt ) ) {
 			# Illegal name
 			return null;
@@ -544,8 +548,9 @@ class User {
 		if ( $name == ''
 		|| User::isIP( $name )
 		|| strpos( $name, '/' ) !== false
-		|| strlen( $name ) > $wgMaxNameChars
-		|| $name != $wgContLang->ucfirst( $name ) ) {
+		//|| strlen( $name ) > $wgMaxNameChars
+		//|| $name != $wgContLang->ucfirst( $name )
+		 ) {
 			wfDebugLog( 'username', __METHOD__ .
 				": '$name' invalid due to empty, IP, slash, length, or lowercase" );
 			return false;
@@ -553,30 +558,30 @@ class User {
 
 		// Ensure that the name can't be misresolved as a different title,
 		// such as with extra namespace keys at the start.
-		$parsed = Title::newFromText( $name );
-		if( is_null( $parsed )
-			|| $parsed->getNamespace()
-			|| strcmp( $name, $parsed->getPrefixedText() ) ) {
-			wfDebugLog( 'username', __METHOD__ .
-				": '$name' invalid due to ambiguous prefixes" );
-			return false;
-		}
+		// $parsed = Title::newFromText( $name );
+		// if( is_null( $parsed )
+		// 	|| $parsed->getNamespace()
+		// 	|| strcmp( $name, $parsed->getPrefixedText() ) ) {
+		// 	wfDebugLog( 'username', __METHOD__ .
+		// 		": '$name' invalid due to ambiguous prefixes" );
+		// 	return false;
+		// }
 
 		// Check an additional blacklist of troublemaker characters.
 		// Should these be merged into the title char list?
-		$unicodeBlacklist = '/[' .
-			'\x{0080}-\x{009f}' . # iso-8859-1 control chars
-			'\x{00a0}' .          # non-breaking space
-			'\x{2000}-\x{200f}' . # various whitespace
-			'\x{2028}-\x{202f}' . # breaks and control chars
-			'\x{3000}' .          # ideographic space
-			'\x{e000}-\x{f8ff}' . # private use
-			']/u';
-		if( preg_match( $unicodeBlacklist, $name ) ) {
-			wfDebugLog( 'username', __METHOD__ .
-				": '$name' invalid due to blacklisted characters" );
-			return false;
-		}
+		// $unicodeBlacklist = '/[' .
+		// 	//'\x{0080}-\x{009f}' . # iso-8859-1 control chars
+		// 	//'\x{00a0}' .          # non-breaking space
+		// 	//'\x{2000}-\x{200f}' . # various whitespace
+		// 	//'\x{2028}-\x{202f}' . # breaks and control chars
+		// 	'\x{3000}' .          # ideographic space
+		// 	'\x{e000}-\x{f8ff}' . # private use
+		// 	']/u';
+		// if( preg_match( $unicodeBlacklist, $name ) ) {
+		// 	wfDebugLog( 'username', __METHOD__ .
+		// 		": '$name' invalid due to blacklisted characters" );
+		// 	return false;
+		//}
 
 		return true;
 	}
@@ -750,7 +755,7 @@ class User {
 	public static function getCanonicalName( $name, $validate = 'valid' ) {
 		# Force usernames to capital
 		global $wgContLang;
-		$name = $wgContLang->ucfirst( $name );
+		//$name = $wgContLang->ucfirst( $name );
 
 		# Reject names containing '#'; these will be cleaned up
 		# with title normalisation, but then it's too late to
@@ -758,17 +763,9 @@ class User {
 		if( strpos( $name, '#' ) !== false )
 			return false;
 
-		# Clean up name according to title rules
-		$t = ( $validate === 'valid' ) ?
-			Title::newFromText( $name ) : Title::makeTitle( NS_USER, $name );
-		# Check for invalid titles
-		if( is_null( $t ) ) {
-			return false;
-		}
-
 		# Reject various classes of invalid names
 		global $wgAuth;
-		$name = $wgAuth->getCanonicalName( $t->getText() );
+		$name = $wgAuth->getCanonicalName( $name );
 
 		switch ( $validate ) {
 			case false:

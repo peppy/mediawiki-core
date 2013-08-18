@@ -315,7 +315,7 @@ class LoginForm extends SpecialPage {
 		}
 
 		# Now create a dummy user ($u) and check if it is valid
-		$name = trim( $this->mUsername );
+		$name = trim( ucfirst($this->mUsername) );
 		$u = User::newFromName( $name, 'creatable' );
 		if ( !is_object( $u ) ) {
 			$this->mainLoginForm( wfMsg( 'noname' ) );
@@ -491,17 +491,20 @@ class LoginForm extends SpecialPage {
 			return self::SUCCESS;
 		}
 
+		//problem is occurring here
+
 		$this->mExtUser = ExternalUser::newFromName( $this->mUsername );
 
 		# TODO: Allow some magic here for invalid external names, e.g., let the
 		# user choose a different wiki name.
-		$u = User::newFromName( $this->mUsername );
+		$u = User::newFromName( str_replace(array('[',']',' ','_'), array('','','',''), $this->mUsername) );
 		if( !( $u instanceof User ) || !User::isUsableName( $u->getName() ) ) {
 			return self::ILLEGAL;
 		}
 
 		$isAutoCreated = false;
-		if ( 0 == $u->getID() ) {
+
+		if ( 0 == $u->getID()) {
 			$status = $this->attemptAutoCreate( $u );
 			if ( $status !== self::SUCCESS ) {
 				return $status;
@@ -1034,7 +1037,7 @@ class LoginForm extends SpecialPage {
 			if( $this->mLanguage )
 				$template->set( 'uselang', $this->mLanguage );
 		}
-		
+
 		// Use loginend-https for HTTPS requests if it's not blank, loginend otherwise
 		// Ditto for signupend
 		$usingHTTPS = WebRequest::detectProtocol() == 'https';

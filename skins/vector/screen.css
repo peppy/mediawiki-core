@@ -2,7 +2,7 @@
  * Any rules which should not be flipped automatically in right-to-left situations should be
  * prepended with @noflip in a comment block. Images that should be embedded as base64 data-URLs
  * should be prepended with @embed in a comment block.
- * 
+ *
  * This style-sheet employs a few CSS trick to accomplish compatibility with a wide range of web
  * browsers. The most common trick is to use some styles in IE6 only. This is accomplished by using
  * a rule that makes things work in IE6, and then following it with a rule that begins with
@@ -11,35 +11,25 @@
  * "IGNORED BY IE6" comments.
  */
 
-/* Framework */
-html,
-body {
-	height: 100%;
-	margin: 0;
-	padding: 0;
-	font-family: sans-serif;
-	font-size: 1em;
+/* osu! customisation */
+
+.content-with-bg {
+	margin-top: -14px;
 }
-body {
-	background-color: #f3f3f3;
-	/* @embed */
-	background-image: url(images/page-base.png);
-}
+
 /* Content */
 div#content {
-	margin-left: 10em;
 	padding: 1em;
 	/* @embed */
 	background-image: url(images/border.png);
 	background-position: top left;
 	background-repeat: repeat-y;
-	background-color: white;
 	color: black;
 	direction: ltr;
 }
 /* Head */
 #mw-page-base {
-	height: 5em;
+	height: 3em;
 	background-color: white;
 	/* @embed */
 	background-image: url(images/page-fade.png);
@@ -47,16 +37,15 @@ div#content {
 	background-repeat: repeat-x;
 }
 #mw-head-base {
-	margin-top: -5em;
-	margin-left: 10em;
-	height: 5em;
+	margin-top: -2.7em;
+	height: 26px;
 	/* @embed */
 	background-image: url(images/border.png);
 	background-position: bottom left;
 	background-repeat: repeat-x;
 }
 div#mw-head {
-	position: absolute;
+	position: relative;
 	top: 0;
 	right: 0;
 	width: 100%;
@@ -72,11 +61,16 @@ div#mw-head h5 {
 	/* Personal */
 	#p-personal {
 		position: absolute;
-		top: 0;
+		font-size: 120%;
+		top: -24px;
 		right: 0.75em;
 	}
 	#p-personal h5 {
 		display: none;
+	}
+
+	#p-personal li {
+		list-style: none;
 	}
 	#p-personal ul {
 		list-style: none;
@@ -98,12 +92,10 @@ div#mw-head h5 {
 	/* Navigation Containers */
 	#left-navigation {
 		position: absolute;
-		left: 10em;
-		top: 2.5em;
+		left: 60px;
 	}
 	#right-navigation {
 		float: right;
-		margin-top: 2.5em;
 	}
 	/* Navigation Labels */
 	div.vectorTabs h5,
@@ -269,31 +261,30 @@ div#mw-head h5 {
 	div.vectorMenu h5 > a {
 		display: block;
 	}
-	div.vectorMenu div.menu {
-		position: relative;
+	div.vectorMenu div.wikimenu {
 		display: none;
 		clear: both;
 		text-align: left;
 	}
 	/* OVERRIDDEN BY COMPLIANT BROWSERS */
 	/* @noflip */
-	body.rtl div.vectorMenu div.menu {
+	body.rtl div.vectorMenu div.wikimenu {
 		margin-left: 24px;
 	}
 	/* IGNORED BY IE6 */
 	/* @noflip */
-	body.rtl div.vectorMenu > div.menu {
+	body.rtl div.vectorMenu > div.wikimenu {
 		margin-left: auto;
 	}
 	/* IGNORED BY IE6 */
 	/* Also fixes old versions of FireFox */
 	/* @noflip */
-	body.rtl div.vectorMenu > div.menu,
+	body.rtl div.vectorMenu > div.wikimenu,
 	x:-moz-any-link {
 		margin-left: 23px;
 	}
 	/* Enable forcing showing of the menu for accessibility */
-	div.vectorMenu:hover div.menu, div.vectorMenu div.menuForceShow {
+	div.vectorMenu:hover div.wikimenu, div.vectorMenu div.menuForceShow {
 		display: block;
 	}
 	div.vectorMenu ul {
@@ -355,6 +346,7 @@ div#mw-head h5 {
 	#p-search {
 		margin-right: 0.5em;
 		margin-left: 0.5em;
+		margin-top: -5px;
 	}
 	#p-search form,
 	#p-search input {
@@ -395,7 +387,7 @@ div#mw-head h5 {
 	div#simpleSearch input.placeholder {
 		color: #999999;
 	}
-	div#simpleSearch input::-webkit-input-placeholder { 
+	div#simpleSearch input::-webkit-input-placeholder {
 		color: #999999;
 	}
 	div#simpleSearch input#searchInput {
@@ -445,18 +437,32 @@ div#mw-head h5 {
 		margin: 0;
 	}
 /* Panel */
-div#mw-panel {
+@media screen and (max-width: 1100px)
+{
+	div.mw-panel:hover {
+		padding-left: 8em;
+		-webkit-transition: padding 0.5s;
+	}
+}
+
+div.mw-panel {
+	-webkit-transition: padding 0.5s;
+
+    border: solid 2px #6261ae;
+
 	position: absolute;
-	top: 160px;
+	top: 170px;
 	padding-top: 1em;
 	width: 10em;
-	left: 0;
+	left: -10.5em;
+	background: #ffffff;
+	border-radius: 5px;
 }
-	div#mw-panel div.portal {
+	div.mw-panel div.portal {
 		padding-bottom: 1.5em;
 		direction: ltr;
 	}
-	div#mw-panel div.portal h5 {
+	div.mw-panel div.portal h5 {
 		font-weight: normal;
 		color: #444444;
 		padding: 0.25em;
@@ -464,9 +470,8 @@ div#mw-panel {
 		padding-left: 1.75em;
 		cursor: default;
 		border: none;
-		font-size: 0.75em;
 	}
-	div#mw-panel div.portal div.body {
+	div.mw-panel div.portal div.body {
 		margin: 0;
 		padding-top: 0.5em;
 		margin-left: 1.25em;
@@ -475,25 +480,24 @@ div#mw-panel {
 		background-repeat: no-repeat;
 		background-position: top left;
 	}
-	div#mw-panel div.portal div.body ul {
+	div.mw-panel div.portal div.body ul {
 		list-style: none;
 		list-style-image: none;
 		list-style-type: none;
 		padding: 0;
 		margin: 0;
 	}
-	div#mw-panel div.portal div.body ul li {
+	div.mw-panel div.portal div.body ul li {
 		line-height: 1.125em;
 		padding: 0;
 		padding-bottom: 0.5em;
 		margin: 0;
 		overflow: hidden;
-		font-size: 0.75em;
 	}
-	div#mw-panel div.portal div.body ul li a {
+	div.mw-panel div.portal div.body ul li a {
 		color: #0645ad;
 	}
-	div#mw-panel div.portal div.body ul li a:visited {
+	div.mw-panel div.portal div.body ul li a:visited {
 		color: #0b0080;
 	}
 /* Footer */
@@ -561,7 +565,7 @@ div#footer #footer-places li {
 }
 
 /*
- * 
+ *
  * The following code is highly modified from monobook. It would be nice if the
  * preftoc id was more human readable like preferences-toc for instance,
  * howerver this would require backporting the other skins.
@@ -663,7 +667,7 @@ div#footer #footer-places li {
 	margin-right: 0.25em;
 }
 
-/* 
+/*
  * Styles for the user login and create account forms
  */
 #userlogin, #userloginForm {
@@ -680,16 +684,14 @@ div#footer #footer-places li {
 }
 
 /*
- * 
+ *
  * The following code is slightly modified from monobook
- * 
+ *
  */
 div#content {
 	line-height: 1.5em;
 }
-#bodyContent {
-	font-size: 0.8em;
-}
+
 /* Links */
 a {
 	text-decoration: none;
@@ -742,7 +744,6 @@ h6 {
 	overflow: hidden;
 	padding-top: .5em;
 	padding-bottom: .17em;
-	border-bottom: 1px solid #aaa;
 	width: auto;
 }
 h1 { font-size: 188%; }
@@ -865,7 +866,6 @@ select {
 	border: 1px solid #aaa;
 	background-color: #f9f9f9;
 	padding: 5px;
-	font-size: 95%;
 }
 #toc h2,
 .toc h2 {
@@ -1031,7 +1031,6 @@ h3, h4, h5 {
 	padding-top: 0;
 	margin-bottom: 0.1em;
 	line-height: 1.2em;
-	font-size: 1.6em;
 	padding-bottom: 0;
 }
 div#content a.external,
