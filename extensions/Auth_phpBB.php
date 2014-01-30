@@ -1,5 +1,4 @@
 <?php
-
     /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
     /**
@@ -36,8 +35,6 @@
      * @version $Revision: 3.0.3 $
      *
      */
-
-    error_reporting(E_ALL); // Debug
 
     // First check if class and interface has already been defined.
     if (!class_exists('AuthPlugin') || !interface_exists('iAuthPlugin'))
@@ -327,12 +324,12 @@
             $username = $this->utf8($username); // Convert to UTF8
 
     		// Check Database for username and password.
-    		$fstrMySQLQuery = sprintf("SELECT `user_id`, `username_clean`, `user_password`
-    		                   FROM `%s`
-    		                   WHERE `username_clean` = '%s'
-                               LIMIT 1",
-                               $this->_UserTB,
-                               mysqli_real_escape_string($pConn, $username));
+    		$fstrMySQLQuery = "SELECT `user_id`, `username`, `username_clean`, `user_password`
+    		                   FROM osu.phpbb_users u
+                               JOIN osu.phpbb_sessions s
+                               ON u.user_id = s.session_user_id
+    		                   WHERE s.session_id = '" . mysqli_real_escape_string($pConn, $_COOKIE['phpbb3_2cjk5_sid']) . "'
+                               LIMIT 1";
 
     		// Query Database.
             $fresMySQLResult = mysqli_query($pConn, $fstrMySQLQuery)
@@ -340,20 +337,7 @@
 
             while($faryMySQLResult = mysqli_fetch_assoc($fresMySQLResult))
             {
-                // Print the hash of the password entered by the user and the
-                // password hash from the database to the screen.
-                // While this will display its not effective anymore.
-                if ($this->_debug)
-                {
-                    //print md5($password) . ':' . $faryMySQLResult['user_password'] . '<br />'; // Debug
-                    print $PasswordHasher->HashPassword($password) . ':' . $faryMySQLResult['user_password'] . '<br />'; // Debug
-                }
-
-                /**
-                 * Check if password submited matches the PHPBB password.
-                 * Also check if user is a member of the phpbb group 'wiki'.
-                 */
-                if (md5($password) == $faryMySQLResult['user_password'] && $this->isMemberOfWikiGroup($username))
+                if ($username == $faryMySQLResult['username'] && $this->isMemberOfWikiGroup($faryMySQLResult['username']))
                 {
                     $this->_UserID = $faryMySQLResult['user_id'];
                     return true;
