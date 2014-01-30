@@ -68,6 +68,9 @@ $wgDBmysql5 = false;
 
 ## Shared memory settings
 $wgMainCacheType    = CACHE_MEMCACHED;
+$wgParserCacheType = CACHE_MEMCACHED;
+$wgMessageCacheType = CACHE_MEMCACHED;
+
 $wgMemCachedServers = array( 'cache1:11211' );
 
 ## To enable image uploads, make sure the 'images' directory
