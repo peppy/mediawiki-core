@@ -99,12 +99,6 @@ $wgShellLocale = "en_US.utf8";
 # Site language code, should be one of the list in ./languages/Names.php
 $wgLanguageCode = "en";
 
-$wgSecretKey = "72fd70eab4bd3fd791d79cd771576fe4f41e36097d43c1461de865bcd0228aa2";
-
-# Site upgrade key. Must be set to a string (default provided) to turn on the
-# web installer while LocalSettings.php is in place
-$wgUpgradeKey = "1ce82e7f0ed09dec";
-
 ## Default skin: you can change the default skin. Use the internal symbolic
 ## names, ie 'standard', 'nostalgia', 'cologneblue', 'monobook', 'vector':
 $wgDefaultSkin = "vector";
@@ -149,3 +143,4 @@ $wgUsePathInfo      = true;
 $wgShowExceptionDetails = true;
 
 require_once( "$IP/extensions/googleAnalytics/googleAnalytics.php" );
+require_once('LocalSettingsSecret.php');
