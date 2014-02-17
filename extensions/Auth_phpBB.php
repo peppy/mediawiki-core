@@ -302,7 +302,6 @@
 			return true;
 		}
 
-
     	/**
     	 * Check if a username+password pair is a valid login.
     	 * The name will be normalized to MediaWiki's requirements, so
@@ -353,7 +352,28 @@
                  * Check if password submited matches the PHPBB password.
                  * Also check if user is a member of the phpbb group 'wiki'.
                  */
-                if (md5($password) == $faryMySQLResult['user_password'] && $this->isMemberOfWikiGroup($username))
+
+                $verified = false;
+                $checkHash = md5($password);
+                $correctHash = $faryMySQLResult['user_password'];
+
+                $checkHash = strtolower($checkHash);
+
+                if (strlen($correctHash) == 32)
+                    $verified = $checkHash === $correctHash;
+                else
+                {
+                    // bcrypt. this fix here is to account for the differences between Bcrypt.Net and PHP's implementation.
+                    // This is because PHP is using crypt(), and it turned out crypt_blowfish had an exploit in it.
+                    // Bcrypt.Net is using the original implementation that *isnt* horribly prone to unicode attacks.
+                    $correctHash = str_replace("$2a$", "$2y$", $correctHash);
+
+                    // md5 here is for compatibility.
+                    $verified = password_verify($checkHash, $correctHash);
+                }
+
+
+                if ($verified && $this->isMemberOfWikiGroup($username))
                 {
                     $this->_UserID = $faryMySQLResult['user_id'];
                     return true;
@@ -967,5 +987,4 @@ $wgAuth_Config['LoginMessage']   = '<b>You need an osu! account to login.</b><br
 $wgAuth_Config['NoWikiError']    = 'You are not a member of the required phpBB group.'; // Localize this message.
 
 $wgAuth = new Auth_phpBB($wgAuth_Config);     // Auth_phpBB Plugin.
-
 ?>
