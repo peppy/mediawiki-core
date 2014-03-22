@@ -138,7 +138,7 @@ class VectorTemplate extends BaseTemplate {
 		$fetchOnly = true;
 
 		$pageName = 'wiki_header';
-		$pageTitle = $page_title;
+		$pageTitle = empty($page_title) ? '' : $page_title;
 	    include($_SERVER['DOCUMENT_ROOT'] . '/index.php');
 		$osu_header = $forumOutput;
 

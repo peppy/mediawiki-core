@@ -147,3 +147,32 @@ $wgShowExceptionDetails = true;
 
 require_once( "$IP/extensions/googleAnalytics/googleAnalytics.php" );
 require_once('LocalSettingsSecret.php');
+
+//
+
+// s3 filesystem repo
+$wgUploadS3Bucket = 'w.ppy.sh';
+$wgUploadS3SSL = false; // true if SSL should be used
+$wgPublicS3 = true; // true if public, false if authentication should be used
+$wgUploadBaseUrl = $wgS3BaseUrl = "http://w.ppy.sh";
+
+$wgUseImageResize = false;
+$wgLocalFileRepo = array(
+	'class' => 'LocalS3Repo',
+	'name' => 'local',
+	'directory' => '',
+	'url' => $wgUploadBaseUrl,
+	'urlbase' => $wgS3BaseUrl ? $wgS3BaseUrl : "",
+	'thumbDir' => 'thumb',
+	'hashLevels' => $wgHashedUploadDirectory ? 2 : 0,
+	'transformVia404' => !$wgGenerateThumbnailOnParse,
+	'initialCapital' => $wgCapitalLinks,
+	'deletedDir' => 'deleted',
+	//'deletedHashLevels' => $wgFileStore['deleted']['hash'],
+	'AWS_ACCESS_KEY' => $awsAccessKey,
+	'AWS_SECRET_KEY' => $awsSecretKey,
+	'AWS_S3_BUCKET' => $wgUploadS3Bucket,
+	'AWS_S3_PUBLIC' => $wgPublicS3,
+	'AWS_S3_SSL' => $wgUploadS3SSL
+);
+require_once("$IP/extensions/LocalS3Repo/LocalS3Repo.php");
