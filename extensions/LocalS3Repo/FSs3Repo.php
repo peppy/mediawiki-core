@@ -441,8 +441,9 @@ class FSs3Repo extends FileRepo {
 
 		foreach ( $triplets as $i => $triplet ) {
 			list( $srcPath, $dstRel, $archiveRel ) = $triplet;
-			$dstPath = "{$this->directory}/$dstRel";
-			$archivePath = "{$this->directory}/$archiveRel";
+			$dstPath = "$dstRel";
+			$archivePath = "$archiveRel";
+
 
 			// Archive destination file if it exists
 			$info = $s3->getObjectInfo($this->AWS_S3_BUCKET, $dstPath);
@@ -479,7 +480,6 @@ class FSs3Repo extends FileRepo {
 						$success = true;
 					}
 				}
-
 
 				if( !$success ) {
 					$status->error( 'filerenameerror',$dstPath, $archivePath );
