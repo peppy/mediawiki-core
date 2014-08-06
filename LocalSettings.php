@@ -156,6 +156,8 @@ $wgUploadS3SSL = false; // true if SSL should be used
 $wgPublicS3 = true; // true if public, false if authentication should be used
 $wgUploadBaseUrl = $wgS3BaseUrl = "http://w.ppy.sh";
 
+$wgRestrictDisplayTitle = false; //see https://osu.ppy.sh/forum/t/231728
+
 $wgUseImageResize = false;
 $wgLocalFileRepo = array(
 	'class' => 'LocalS3Repo',
