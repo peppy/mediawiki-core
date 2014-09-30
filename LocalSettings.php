@@ -54,7 +54,7 @@ $wgEmailAuthentication = true;
 $wgDBtype           = "mysqli";
 $wgDBserver         = "p:osudb";
 $wgDBname           = "osu_wiki";
-$wgDBuser           = "www";
+$wgDBuser           = "wiki";
 $wgDBpassword       = "";
 
 # MySQL specific settings
