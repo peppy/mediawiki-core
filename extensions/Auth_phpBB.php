@@ -329,6 +329,7 @@
     		$fstrMySQLQuery = sprintf("SELECT `user_id`, `username_clean`, `user_password`
     		                   FROM `%s`
     		                   WHERE `username_clean` = '%s'
+                               AND user_warnings = 0
                                LIMIT 1",
                                $this->_UserTB,
                                mysqli_real_escape_string($pConn, $username));
@@ -507,6 +508,7 @@
     		$fstrMySQLQuery = sprintf("SELECT `username_clean`
     		                   FROM `%s`
     		                   WHERE `username_clean` = '%s'
+                               AND user_warnings = 0
                                LIMIT 1",
                                $this->_UserTB,
                                mysqli_real_escape_string($pConn, $username));
@@ -548,6 +550,7 @@
     		$fstrMySQLQuery = sprintf("SELECT `username_clean`, `user_email`
     		                   FROM `%s`
     		                   WHERE `username_clean` = '%s'
+                               AND user_warnings = 0
                                LIMIT 1",
                                $this->_UserTB,
                                mysqli_real_escape_string($pConn, $username));
