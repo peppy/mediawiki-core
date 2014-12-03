@@ -379,6 +379,6 @@ class DatabaseMysqli extends DatabaseMysql {
 	 * @return string: Version information from the database server.
 	 */
 	function getServerVersion() {
-		return $this->mConn->get_server_info();
+		return "5.6.21";
 	}
 }

@@ -1254,8 +1254,8 @@ final class S3Request {
 		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 		curl_setopt($curl, CURLOPT_HEADER, false);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, false);
-		curl_setopt($curl, CURLOPT_WRITEFUNCTION, array(&$this, '__responseWriteCallback'));
-		curl_setopt($curl, CURLOPT_HEADERFUNCTION, array(&$this, '__responseHeaderCallback'));
+		curl_setopt($curl, CURLOPT_WRITEFUNCTION, array($this, '__responseWriteCallback'));
+		curl_setopt($curl, CURLOPT_HEADERFUNCTION, array($this, '__responseHeaderCallback'));
 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 
 		// Request types
@@ -1329,7 +1329,7 @@ final class S3Request {
 	* @param string &$data Data
 	* @return integer
 	*/
-	private function __responseWriteCallback(&$curl, &$data) {
+	private function __responseWriteCallback($curl, $data) {
 		if ($this->response->code == 200 && $this->fp !== false)
 			return fwrite($this->fp, $data);
 		else
@@ -1345,7 +1345,7 @@ final class S3Request {
 	* @param string &$data Data
 	* @return integer
 	*/
-	private function __responseHeaderCallback(&$curl, &$data) {
+	private function __responseHeaderCallback($curl, $data) {
 		if (($strlen = strlen($data)) <= 2) return $strlen;
 		if (substr($data, 0, 4) == 'HTTP')
 			$this->response->code = (int)substr($data, 9, 3);
