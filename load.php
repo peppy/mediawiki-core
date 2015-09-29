@@ -44,6 +44,8 @@ if ( !$wgRequest->checkUrlExtension() ) {
 
 // Respond to resource loading request
 $resourceLoader = new ResourceLoader();
+if ($_REQUEST['only'] == 'scripts')
+	return;
 $resourceLoader->respond( new ResourceLoaderContext( $resourceLoader, $wgRequest ) );
 
 wfProfileOut( 'load.php' );
