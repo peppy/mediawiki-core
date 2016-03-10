@@ -230,7 +230,7 @@ class MagicWord {
 	 * Get an array of parser substitution modifier IDs
 	 */
 	static function getSubstIDs() {
-		return self::$mSubstIDs; 
+		return self::$mSubstIDs;
 	}
 
 	/**
@@ -309,8 +309,8 @@ class MagicWord {
 	}
 
 	/**
-	 * A comparison function that returns -1, 0 or 1 depending on whether the 
-	 * first string is longer, the same length or shorter than the second 
+	 * A comparison function that returns -1, 0 or 1 depending on whether the
+	 * first string is longer, the same length or shorter than the second
 	 * string.
 	 *
 	 * @param $s1 string
@@ -671,7 +671,9 @@ class MagicWordArray {
 				$magic = MagicWord::get( $name );
 				$case = intval( $magic->isCaseSensitive() );
 				foreach ( $magic->getSynonyms() as $i => $syn ) {
-					$group = "(?P<{$i}_{$name}>" . preg_quote( $syn, '/' ) . ')';
+					// Group name must start with a non-digit in PCRE 8.34+ 
+					$it = strtr( $i, '0123456789', 'abcdefghij' );
+					$group = "(?P<{$it}_{$name}>" . preg_quote( $syn, '/' ) . ')';
 					if ( $this->baseRegex[$case] === '' ) {
 						$this->baseRegex[$case] = $group;
 					} else {
@@ -721,7 +723,7 @@ class MagicWordArray {
 			$newRegex[0] = "/^(?:{$base[0]})/iuS";
 		}
 		if ( $base[1] !== '' ) {
-			$newRegex[1] = "/^(?:{$base[1]})/S"; 
+			$newRegex[1] = "/^(?:{$base[1]})/S";
 		}
 		return $newRegex;
 	}
