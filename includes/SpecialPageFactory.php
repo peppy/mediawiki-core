@@ -104,11 +104,11 @@ class SpecialPageFactory {
 		'UploadStash'               => 'SpecialUploadStash',
 
 		// Wiki data and tools
-		'Statistics'                => 'SpecialStatistics',
-		'Allmessages'               => 'SpecialAllmessages',
-		'Version'                   => 'SpecialVersion',
-		'Lockdb'                    => 'SpecialLockdb',
-		'Unlockdb'                  => 'SpecialUnlockdb',
+		//'Statistics'                => 'SpecialStatistics',
+		//'Allmessages'               => 'SpecialAllmessages',
+		//'Version'                   => 'SpecialVersion',
+		//'Lockdb'                    => 'SpecialLockdb',
+		//'Unlockdb'                  => 'SpecialUnlockdb',
 
 		// Redirecting special pages
 		'LinkSearch'                => 'LinkSearchPage',
@@ -510,7 +510,7 @@ class SpecialPageFactory {
 	static function getLocalNameFor( $name, $subpage = false ) {
 		global $wgContLang;
 		$aliases = $wgContLang->getSpecialPageAliases();
-		
+
 		if ( isset( $aliases[$name][0] ) ) {
 			$name = $aliases[$name][0];
 		} else {
